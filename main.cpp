@@ -20,24 +20,26 @@ bool createConnection()
 void createFakeData()
 {
     QSqlQuery query;
-    query.exec("DROP TABLE contact");
+    query.exec("DROP TABLE contact;");
     query.exec("create table contact(ID INTEGER PRIMARY KEY AUTOINCREMENT ,NAME VARCHAR(255) NOT NULL,"
-               "EMAIL VARCHAR(255) NOT NULL, TEL INTEGER NOT NULL)");
+               "EMAIL VARCHAR(255) NOT NULL, TEL INTEGER NOT NULL);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'LING Jiarong','ling@contact.fr',61232170)");
+               "VALUES (NULL,'LING Jiarong','ling@contact.fr',61232170);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
                "VALUES (NULL,'Lebron James','James@contact.fr',60000970)");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'Kobe Bryant','Bryant@contact.fr',60083170)");
+               "VALUES (NULL,'Kobe Bryant','Bryant@contact.fr',60083170);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'Stephen Curry','curry@contact.fr',98722170)");
+               "VALUES (NULL,'Stephen Curry','curry@contact.fr',98722170);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'Dick Nowizki','Dick@contact.fr',69932170)");
+               "VALUES (NULL,'Dick Nowizki','Dick@contact.fr',69932170);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'John Smith','john_smith@contact.fr',62252490)");
+               "VALUES (NULL,'John Smith','john_smith@contact.fr',62252490);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
-               "VALUES (NULL,'Paul Celestin','paul_celestin@contact.fr',69832170)");
-    query.exec("select * from contact");
+               "VALUES (NULL,'Paul Celestin','paul_celestin@contact.fr',69832170);");
+    query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
+               "VALUES (NULL,'MC Jin','Jin@contact.fr',2321370);");
+ //   query.exec("select * from contact;");
 //    while(query.next()){
 //           qDebug()<< query.value(0).toString()<<"\t"<<query.value(1).toString()<<
 //                      "\t"<<query.value(2).toString()<<"\t"<<query.value(3).toString()<<endl;
@@ -62,12 +64,12 @@ void searchBy(QSqlQuery query,QString attribute,QString value){
 
 int main(int argc, char *argv[])
 {
+   // QApplication::addLibraryPath("./plugins");
     bool existingData = QFile::exists("contact.dat");
     if (!createConnection())
         return 1;
     if (!existingData)
         createFakeData();
-    QSqlQuery query;
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

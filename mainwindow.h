@@ -33,8 +33,6 @@ public slots:
     void add();
     void search();
 
-
-
 private:
     void updateId();
     Ui::MainWindow *ui;

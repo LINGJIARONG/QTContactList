@@ -107,8 +107,6 @@ void MainWindow::add(){
         query.bindValue(":tel",tel);
         if(query.exec())
             deck.append(++number);
-
-
         qDebug()<< number<<endl;
         hideNew();
         refresh();
@@ -210,7 +208,7 @@ void MainWindow::search(){
     QString value=ui->lineEdit->text();
     QSqlQuery query;
     QString q="select * from contact where  "+champs +
-            " like :value;";
+            " like :value order by NAME;";
     query.prepare(q);
     query.bindValue(":value", "%"+value+"%");
     qDebug()<<q<<champs;
@@ -238,18 +236,24 @@ void MainWindow::search(){
 void MainWindow ::refresh(){
     QSqlQuery query;
     QSqlRecord rec = query.record();
-    query.exec("select * from contact");
+    query.exec("select * from contact order by NAME ");
     while(query.next()){
         qDebug()<< query.value(0).toString()<<"\t"<<query.value(1).toString()<<
                    "\t"<<query.value(2).toString()<<"\t"<<query.value(3).toString()<<endl;
     }
-    query.exec("select NAME from contact");
+    query.exec("select * from contact order by NAME");
     to_list(query);
     deck.clear();
     qDebug()<<number;
-    for(int i=1;i<=number;i++){
-        deck.append(i);
-    }
+    query.first();
+    do{
+        QSqlRecord rec = query.record();
+        int idx=rec.indexOf("ID");
+        int id=query.value(idx).toInt();
+        deck.append(id);
+    }while(query.next());
+    qDebug()<<deck;
+
 }
 
 void MainWindow::to_list( QSqlQuery query){
@@ -340,7 +344,6 @@ void MainWindow::hideNew(){
 
 void MainWindow::showNew(){
     ui->frame->show();
-
     ui->listView->hide();
     ui->lineEdit->setEnabled(false);
     ui->comboBox->setEnabled(false);
