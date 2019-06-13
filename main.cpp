@@ -3,7 +3,10 @@
 #include <QtSql>
 #include <cstdlib>
 #include <QtWidgets>
-
+/**
+ * @brief createConnection
+ * @return true if success
+ */
 bool createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -16,7 +19,9 @@ bool createConnection()
     return true;
 }
 
-
+/**
+ * @brief createFakeData: pre fill database
+ */
 void createFakeData()
 {
     QSqlQuery query;
@@ -39,32 +44,11 @@ void createFakeData()
                "VALUES (NULL,'Paul Celestin','paul_celestin@contact.fr',69832170);");
     query.exec("insert into contact(ID,NAME,EMAIL, TEL) "
                "VALUES (NULL,'MC Jin','Jin@contact.fr',2321370);");
- //   query.exec("select * from contact;");
-//    while(query.next()){
-//           qDebug()<< query.value(0).toString()<<"\t"<<query.value(1).toString()<<
-//                      "\t"<<query.value(2).toString()<<"\t"<<query.value(3).toString()<<endl;
-//    }
 }
-
-
-void searchBy(QSqlQuery query,QString attribute,QString value){
-      QString q="select * from contact where "+ attribute +" = :value";
-     // qDebug()<<q<<endl;
-      query.prepare(q);
-      query.bindValue(":value",value);
-      query.exec();
-
-//      while(query.next()){
-//             qDebug()<< query.value(0).toString()<<"\t"<<query.value(1).toString()<<
-//                        "\t"<<query.value(2).toString()<<"\t"<<query.value(3).toString()<<endl;
-//      }
-}
-
 
 
 int main(int argc, char *argv[])
 {
-   // QApplication::addLibraryPath("./plugins");
     bool existingData = QFile::exists("contact.dat");
     if (!createConnection())
         return 1;
