@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->lineEdit,SIGNAL(textChanged(QString)),this,SLOT(search()));
     connect(ui->comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(search()));
 }
+
 /**
  * @brief MainWindow::init_setup
  */
@@ -39,6 +40,7 @@ void MainWindow::init_setup(){
     ui->pop->hide();
     hide_new();
 }
+
 /**
  * @brief MainWindow::set_combobox
  */
@@ -48,6 +50,7 @@ void MainWindow::set_combobox(){
     ui->comboBox->addItems(list);
     ui->comboBox->setCurrentIndex(1);
 }
+
 /**
  * @brief MainWindow::set_deck
  */
@@ -62,8 +65,6 @@ void MainWindow::set_deck(){
         deck.append(i);
     }
 }
-
-
 
 bool verifyMail(QString email){
     QRegExp Exp ("^[\\w|\\.]+@[\\w]+\\.[\\w]{2,4}$");
@@ -116,8 +117,6 @@ void MainWindow::updateId(){
 
 }
 
-
-
 void MainWindow::add(){
     QString name=ui->nAMELineEdit->text();
     QString email=ui->eMAILLineEdit->text();
@@ -168,6 +167,7 @@ void MainWindow::delete_item(){
     number--;
     hide_detail();
 }
+
 void MainWindow::update(){
     QString name=ui->nAMELineEdit_2->text();
     QString email=ui->eMAILLineEdit_2->text();
