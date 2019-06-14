@@ -78,8 +78,11 @@ bool verifyNumber(QString tel){
 
 QString verifyDuplicate(QString email,QString tel){
     QSqlQuery query;
-    QString q="SELECT * from contact where TEL ='"+ tel +"' AND EMAIL='"+email+"';";
-    query.exec(q);
+    QString q="SELECT * from contact where TEL =:tel AND EMAIL=:email ;";
+    query.prepare(q);
+    query.bindValue(":tel",tel);
+    query.bindValue(":email",email);
+    query.exec();
     query.last();
     int number=query.at() + 1;
     qDebug()<<number<<"+number "<<q;
@@ -92,7 +95,6 @@ QString verifyDuplicate(QString email,QString tel){
     else{
         QString message="name : "+query.value(1).toString()+",tel : "+query.value(3).toString()+
                 ",email : "+query.value(2).toString()+" already exists! (Fail: same phone number + email)";
-
         return message;
     }
 
@@ -179,8 +181,6 @@ void MainWindow::update(){
         QMessageBox::information (this, "Validation", "email address no valide !");
     else if(!verifyNumber(tel)){
         QMessageBox::information (this, "Validation", "phone number no valide !");
-    }else if(!message.isEmpty()){
-        QMessageBox::warning (this, "Warning", message);
     }else{
         QSqlQuery query;
         query.prepare( "UPDATE contact "
@@ -204,7 +204,6 @@ void MainWindow::item_clicked(QModelIndex index){
     ui->lineEdit->setEnabled(false);
     ui->comboBox->setEnabled(false);
     ui->New->setEnabled(false);
-    //  QString q="select * from contact where ID = '"+ QString::number(id)+"'";
     QSqlQuery query;
     query.prepare("select * from contact where ID = :id");
     query.bindValue(":id",QString::number(id));
@@ -299,6 +298,7 @@ void MainWindow::to_list( QSqlQuery query,QString champs){
     for(int i=0;i<nCount;i++){
         QString qs=list.at(i);
         QStandardItem* item=new QStandardItem(qs);
+        item->setDragEnabled(false);
         item->setTextAlignment(Qt::AlignCenter);
         item->setEditable(false);
         QS->appendRow(item);
